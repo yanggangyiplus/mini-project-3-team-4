@@ -4,9 +4,13 @@ import pandas as pd
 import plotly.express as px
 from datetime import datetime
 
-# (로컬 테스트용) OpenWeatherMap API Key
-# ❗️❗️❗️ 본인의 API 키로 반드시 수정해주세요 ❗️❗️❗️
-API_KEY = "42a1c1f7d750079299f8341d808ef0a1"
+# (배포용) Streamlit 클라우드의 Secrets에서 API 키 가져오기
+try:
+    API_KEY = st.secrets["OPENWEATHER_API_KEY"]
+except KeyError:
+    st.error("API 키가 설정되지 않았습니다. Streamlit Cloud의 Secrets에 등록해주세요.")
+    # 로컬 테스트용 임시 키 (배포 시 이 부분은 무시됨)
+    API_KEY = "local_test_key"
 
 st.set_page_config(page_title="날씨 모니터링 대시보드", page_icon="🌦️")
 st.title("🌦️ 실시간 날씨 모니터링 대시보드")
