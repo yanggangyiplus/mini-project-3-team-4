@@ -141,7 +141,15 @@ if st.session_state["history"]:
             st.plotly_chart(fig, use_container_width=True, key=f"{city_name}_chart")
 
             st.subheader("📊 기초 통계량")
-            st.dataframe(city_df[["기온", "습도", "풍속"]].describe())
+
+            # 통계량 계산
+            stats_df = city_df[["기온", "습도", "풍속"]].describe()
+
+            # 소수점 3자리로 포맷 적용
+            stats_df = stats_df.applymap(lambda x: f"{x:.3f}")
+
+            st.dataframe(stats_df)
+
 
             # CSV 다운로드
             csv_city = city_df.to_csv(index=False).encode("utf-8-sig")
